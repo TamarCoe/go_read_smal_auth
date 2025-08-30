@@ -44,7 +44,7 @@ var app = express();
 
 app.use(cookieParser());
 app.use(bodyParser());
-app.use(session({secret: process.env.SESSION_SECRET}));
+// app.use(session({secret: process.env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 
