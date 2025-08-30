@@ -95,7 +95,7 @@ app.use(function(err, req, res, next) {
   next(err);
 });
 
-var server = app.listen(4006, function () {
+var server = app.listen(process.env.PORT || 4006, function () {
   console.log('Listening on port %d', server.address().port)
 });
 
