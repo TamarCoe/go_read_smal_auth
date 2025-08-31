@@ -53,20 +53,20 @@ async function init() {
         userIP = userIP.split(',')[0].trim();
       }
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
-      // try {
-      //   console.log("xxx")
-      //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
-      //     console.log("fff")
+      try {
+        console.log("xxx")
+        await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
+          console.log("fff")
 
-      //   });
-      //   await redis.expire(userIP, 3600 * 24);
-      //   console.log("yyy")
+        });
+        await redis.expire(userIP, 3600 * 24);
+        console.log("yyy")
 
-      // }
-      // catch (err) {
-      //   console.error(`Error while saving in redis: ${err}`)
-      //   res.redirect('/login/fail')
-      // }
+      }
+      catch (err) {
+        console.error(`Error while saving in redis: ${err}`)
+        res.redirect('/login/fail')
+      }
       req.query.RelayState = req.params.referer = { referer };
       console.log("referer", referer)
       passport.authenticate('saml', {
