@@ -72,7 +72,13 @@ async function init() {
       passport.authenticate('saml', {
         failureRedirect: '/login/fail',
         additionalParams: { callbackReferer: referer }
-      })(req, res, next);
+      })(req, res, (err) => {
+        if (err) {
+          return next(err); // תפס את השגיאה אם יש
+        }
+        // אם האימות הצליח, הפנה למקום אחר
+        res.redirect('/success'); // שים את הנתיב המתאים שלך כאן
+      });
     }
   );
 
