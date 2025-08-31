@@ -11,7 +11,7 @@ async function createSamlStartegy() {
   // const metadata = await parseSamlMetadata(rawMetadata)
   console.log('Identity Provider metadata parsed sucessfully')
   return new SamlStrategy({
-    path: 'https://go-read-smal-auth.vercel.app/login/callback',
+    path: '/login/callback',
     identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
     protocol: 'https://',
     host: config.host,
