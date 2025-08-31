@@ -13,7 +13,7 @@ async function createSamlStartegy() {
   return new SamlStrategy({
     path: '/login/callback/',
     identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
-    protocol: 'http://',
+    protocol: 'https://',
     host: config.host,
     entryPoint: 'https://lgn.edu.gov.il/nidp/saml2/sso',
     issuer: config.issuer,
