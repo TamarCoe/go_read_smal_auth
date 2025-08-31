@@ -21,7 +21,7 @@ router.get('/login', passport.authenticate('mySamlStrategy', {
     failureRedirect: 'user/v1/login/sso',
 }));
 
-router.post('/login/sso/callback', passport.authenticate('mySamlStrategy', {
+router.post('/login/callback', passport.authenticate('mySamlStrategy', {
     failureRedirect: '/failed',
     failureFlash: true,
 }), (req, res, next) => {
