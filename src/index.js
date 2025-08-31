@@ -52,7 +52,7 @@ async function init() {
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
       }
-      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'http://localhost:3000/';
+      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
       // passport.authenticate('saml', (err, user, info) => {
       //   console.log("FFFF")
       //   if (err) {
