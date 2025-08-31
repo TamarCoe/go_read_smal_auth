@@ -16,11 +16,11 @@ const client = redis.createClient({
 });
 console.log("CONFIG",client.options);
 client.on('connect', function() {
-    console.log('-->> CONNECTED');
+    // console.log('-->> CONNECTED');
 });
 
 client.on("error", function (err) {
-  console.error("Error in redis client: " + err)
+  // console.error("Error in redis client: " + err)
 });
 
 if (redisUrl.auth) {

@@ -46,6 +46,8 @@ async function init() {
   app.get('/login',
     async (req, res, next) => {
       console.log("Dadsdsa")
+      return res.send("Dss")
+
       // let userIP = req.headers['x-forwarded-for'] || req.ip;
       // console.log("userIP", userIP)
       // if (userIP.includes(',')) {
@@ -72,6 +74,7 @@ async function init() {
       //   failureRedirect: '/login/fail',
       //   additionalParams: { callbackReferer: referer }
       // })(req, res, next);
+
     }
   );
 
