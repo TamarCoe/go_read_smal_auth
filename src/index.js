@@ -14,7 +14,7 @@ app.use(passport.session());
 
 passport.use(new SamlStrategy({
   path: '/login/callback', // endpoint for SAML response
-  entryPoint: 'https://lgn.edu.gov.il/nidp/saml2/metadata', // SAML IdP URL
+  entryPoint: 'https://lgn.edu.gov.il/nidp/saml2/sso', // SAML IdP URL
   issuer: 'https://go-read-smal-auth.vercel.app/', // your app identifier
 }, (profile, done) => {
   if (profile) {
