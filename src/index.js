@@ -76,8 +76,9 @@ async function init() {
         if (err) {
           return next(err); // תפס את השגיאה אם יש
         }
+        console.log("Dsadsa")
         // אם האימות הצליח, הפנה למקום אחר
-        res.redirect('/success'); // שים את הנתיב המתאים שלך כאן
+        // res.redirect('/success'); // שים את הנתיב המתאים שלך כאן
       });
     }
   );
