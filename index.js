@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
+var cors = require('cors');
 var saml = require('passport-saml');
 
 dotenv.load();
@@ -42,9 +43,10 @@ passport.use(samlStrategy);
 
 var app = express();
 
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser());
-// app.use(session({secret: process.env.SESSION_SECRET}));
+app.use(session({secret: process.env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -65,6 +67,7 @@ app.get('/',
 app.get('/login',
   passport.authenticate('saml', { failureRedirect: '/login/fail' }),
   function (req, res) {
+    console.log("Ffds")
     res.redirect('/');
   }
 );
