@@ -53,6 +53,20 @@ async function init() {
         userIP = userIP.split(',')[0].trim();
       }
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
+      passport.authenticate('mySamlStrategy', (err, user, info) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.status(401).send('Authentication failed');
+        }
+        req.logIn(user, (err) => {
+          if (err) {
+            return next(err);
+          }
+          return res.redirect('/'); // הפניה לאחר הצלחה
+        });
+      })(req, res, next);
       // try {
       //   console.log("xxx")
       //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
