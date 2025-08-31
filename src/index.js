@@ -53,7 +53,7 @@ async function init() {
         userIP = userIP.split(',')[0].trim();
       }
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
-      passport.authenticate('mySamlStrategy', (err, user, info) => {
+      passport.authenticate('saml', (err, user, info) => {
         if (err) {
           return next(err);
         }
@@ -83,10 +83,10 @@ async function init() {
       // }
       req.query.RelayState = req.params.referer = { referer };
       console.log("referer", referer)
-      passport.authenticate('saml', {
-        failureRedirect: '/login/fail',
-        additionalParams: { callbackReferer: referer }
-      })(req, res, next);
+      // passport.authenticate('saml', {
+      //   failureRedirect: '/login/fail',
+      //   additionalParams: { callbackReferer: referer }
+      // })(req, res, next);
     }
   );
 
