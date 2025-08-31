@@ -10,15 +10,15 @@ module.exports = {
   logoutRedirectUrl: process.env.LOGOUT_REDIRECT || 'https://www.uingame.co.il',
 
   // SAML Settings
-  host: 'auth.uingame.co.il',
+  host: 'https://go-read-beta.vercel.app',
   idpMetadataUrl: process.env.IDP_METADATA_URL || 'https://lgn.edu.gov.il/nidp/saml2/metadata',
   idpEntryPoint: process.env.IDP_ENTRY_POINT || 'https://lgn.edu.gov.il/nidp/saml2/sso',
   logoutUrl: process.env.LOGOUT_URL || 'https://lgn.edu.gov.il/nidp/jsp/logoutSuccess.jsp',
   issuer: 'https://go-read-smal-auth.vercel.app/',
-  privateKey: process.env.SAML_PRIVATE_KEY,
-  certificate: process.env.SAML_CERT,
+  // privateKey: process.env.SAML_PRIVATE_KEY,
+  // certificate: process.env.SAML_CERT,
 
   // For Getting an SSL Certificate
-  acmeChallengeToken: process.env.ACME_CHALLENGE_TOKEN,
-  acmeChallengeValue: process.env.ACME_CHALLENGE_VALUE
+  // acmeChallengeToken: process.env.ACME_CHALLENGE_TOKEN,
+  // acmeChallengeValue: process.env.ACME_CHALLENGE_VALUE
 }
