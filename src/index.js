@@ -14,8 +14,9 @@ const config = require('./config');
 
 
 init().catch(err => {
-  console.error('FATAL ERROR!')
-  console.error(err)
+  console.error('FATAL ERROR during server initialization!');
+  console.error('Error details:', err);
+  process.exit(1);
 })
 
 async function init() {
@@ -32,62 +33,105 @@ async function init() {
   passport.use(samlStrategy)
   app.use(passport.initialize())
 
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", req.header('Origin'));
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    next();
-  });
+  // CORS configuration
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      const allowedOrigins = [
+        'https://go-read-beta.vercel.app',
+        'https://www.uingame.co.il',
+        'https://space.uingame.co.il',
+        'http://localhost:3000', // for development
+        'http://localhost:3001'  // for development
+      ];
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+  }));
 
-  app.get('/login',
-    async (req, res, next) => {
-      console.log("Dadsdsa")
+  // Handle preflight requests
+  app.options('*', cors());
+
+  // New endpoint that returns the SAML redirect URL instead of redirecting directly
+  app.get('/login/init',
+    async (req, res) => {
+      console.log("Initializing SAML authentication...");
 
       let userIP = req.headers['x-forwarded-for'] || req.ip;
-      console.log("userIP", userIP)
+      console.log("User IP:", userIP);
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
       }
+      
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
-      // passport.authenticate('saml', (err, user, info) => {
-      //   console.log("FFFF")
-      //   if (err) {
-      //     console.log("FFFF")
-      //     return next(err);
-      //   }
-      //   if (!user) {
-      //     console.log("FFFF")
-      //     return res.status(401).send('Authentication failed');
-      //   }
-      //   req.logIn(user, (err) => {
-      //     console.log("FFFF")
-      //     if (err) {
-      //       console.log("FFFF")
-      //       return next(err);
-      //     }
-      //     return res.redirect('/'); // הפניה לאחר הצלחה
-      //   });
-      // })(req, res, next);
-      // try {
-      //   console.log("xxx")
-      //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
-      //     console.log("fff")
+      
+      // Save referer to Redis for later use
+      try {
+        await redis.set(userIP, JSON.stringify({ referer }));
+        await redis.expire(userIP, 3600 * 24); // 24 hours
+        console.log("Referer saved to Redis:", referer);
+      } catch (err) {
+        console.error(`Error while saving in redis: ${err}`);
+        return res.status(500).json({ error: 'Failed to save session data' });
+      }
 
-      //   });
-      //   await redis.expire(userIP, 3600 * 24);
-      //   console.log("yyy")
+      // Generate SAML request and return the redirect URL
+      try {
+        const samlStrategy = passport._strategies.saml;
+        const samlRequest = samlStrategy.generateAuthorizeRequest(req, referer);
+        const redirectUrl = `${config.idpEntryPoint}?${samlRequest}`;
+        
+        console.log("SAML redirect URL generated:", redirectUrl);
+        res.json({ 
+          redirect_url: redirectUrl,
+          success: true 
+        });
+      } catch (err) {
+        console.error("Error generating SAML request:", err);
+        res.status(500).json({ 
+          error: 'Failed to generate SAML request',
+          success: false 
+        });
+      }
+    }
+  );
 
-      // }
-      // catch (err) {
-      //   console.error(`Error while saving in redis: ${err}`)
-      //   res.redirect('/login/fail')
-      // }
-      req.query.RelayState = req.params.referer = { referer };
-      console.log("referer", referer)
+  // Original login endpoint (kept for backward compatibility)
+  app.get('/login',
+    async (req, res, next) => {
+      console.log("Starting SAML authentication process...")
+
+      let userIP = req.headers['x-forwarded-for'] || req.ip;
+      console.log("User IP:", userIP)
+      if (userIP.includes(',')) {
+        userIP = userIP.split(',')[0].trim();
+      }
+      
+      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
+      
+      // Save referer to Redis for later use
+      try {
+        await redis.set(userIP, JSON.stringify({ referer }));
+        await redis.expire(userIP, 3600 * 24); // 24 hours
+        console.log("Referer saved to Redis:", referer);
+      } catch (err) {
+        console.error(`Error while saving in redis: ${err}`);
+        return res.status(500).json({ error: 'Failed to save session data' });
+      }
+
+      // Set RelayState for SAML
+      req.query.RelayState = referer;
+      
+      // Start SAML authentication - this should redirect to IDP
       passport.authenticate('saml', {
         failureRedirect: '/login/fail',
         additionalParams: { callbackReferer: referer }
@@ -98,6 +142,8 @@ async function init() {
   app.post('/login/callback',
     passport.authenticate('saml', { failureRedirect: '/login/fail' }),
     async (req, res, next) => {
+      console.log('SAML callback received');
+      
       let userIP = req.headers['x-forwarded-for'] || req.ip;
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
@@ -186,7 +232,7 @@ async function init() {
     })
   }
 
-  //general error handler
+  // General error handler
   app.use(function (err, req, res, next) {
     console.log("Fatal error: " + JSON.stringify(err))
     next(err)

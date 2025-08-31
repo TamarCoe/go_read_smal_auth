@@ -12,6 +12,7 @@ module.exports = {
   // SAML Settings
   host: 'auth.uingame.co.il',
   idpMetadataUrl: process.env.IDP_METADATA_URL || 'https://lgn.edu.gov.il/nidp/saml2/metadata',
+  idpEntryPoint: process.env.IDP_ENTRY_POINT || 'https://lgn.edu.gov.il/nidp/saml2/sso',
   logoutUrl: process.env.LOGOUT_URL || 'https://lgn.edu.gov.il/nidp/jsp/logoutSuccess.jsp',
   issuer: 'https://go-read-smal-auth.vercel.app/',
   privateKey: process.env.SAML_PRIVATE_KEY,
