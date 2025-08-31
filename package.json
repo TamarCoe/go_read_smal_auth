@@ -1,7 +1,6 @@
 {
   "name": "uingame-auth",
   "version": "1.0.0",
-
   "description": "Authenication Server for UINGame",
   "main": "src/index.js",
   "scripts": {
