@@ -32,43 +32,22 @@ async function init() {
   passport.use(samlStrategy)
   app.use(passport.initialize())
 
-  app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", req.header('Origin'));
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    next();
-  });
-
   app.get('/login',
     async (req, res, next) => {
-      console.log("Dadsdsa")
-      // return res.send("Fdfd")
       let userIP = req.headers['x-forwarded-for'] || req.ip;
-      console.log("userIP", userIP)
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
       }
-      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
-      // try {
-      //   console.log("xxx")
-      //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
-      //     console.log("fff")
-
-      //   });
-      //   await redis.expire(userIP, 3600 * 24);
-      //   console.log("yyy")
-
-      // }
-      // catch (err) {
-      //   console.error(`Error while saving in redis: ${err}`)
-      //   res.redirect('/login/fail')
-      // }
-      req.query.RelayState = req.params.referer = { referer };
-      console.log("referer", referer)
+      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/' ;
+      try {
+        await redis.set(userIP, JSON.stringify({referer}));
+        await redis.expire(userIP, 3600 * 24);
+      }
+      catch (err) {
+        console.error(`Error while saving in redis: ${err}`)
+        res.redirect('/login/fail')
+      }
+      req.query.RelayState = req.params.referer = {referer};
       passport.authenticate('saml', {
         failureRedirect: '/login/fail',
         additionalParams: { callbackReferer: referer }
@@ -92,7 +71,7 @@ async function init() {
           await redis.set(keyName, JSON.stringify(req.user))
           await redis.expire(keyName, config.tokenExpiration)
           await redis.expire(userIP, 1);
-          res.redirect(`${siteInfo.referer + '/createsession'}?${querystring.stringify({ token })}`)
+          res.redirect(`${siteInfo.referer+'/createsession'}?${querystring.stringify({ token })}`)
         } catch (err) {
           console.error(`Error while saving in redis: ${err}`)
           res.redirect('/login/fail')
@@ -105,7 +84,7 @@ async function init() {
 
   app.get('/login/verify',
     cors({
-      origin: [config.corsOrigin, 'https://space.uingame.co.il']
+      origin: [config.corsOrigin,'https://space.uingame.co.il']
     }),
     async (req, res, next) => {
       const { token } = req.query
@@ -135,17 +114,17 @@ async function init() {
 
   app.get('/logout',
     (req, res) => {
-      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/';
+      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/' ;
       res.redirect(`${config.logoutUrl}?logoutURL=${referer}`)
     }
   )
 
   app.get('/no-license-logout',
-    (req, res) => {
-      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/';
-      res.redirect(`${config.logoutUrl}?logoutURL=${referer}/no-license/`)
-    }
-  )
+  (req, res) => {
+    let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/' ;
+    res.redirect(`${config.logoutUrl}?logoutURL=${referer}/no-license/`)
+  }
+)
 
   app.get('/saml/metadata',
     (req, res, next) => {
