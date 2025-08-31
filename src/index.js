@@ -39,14 +39,14 @@ async function init() {
         userIP = userIP.split(',')[0].trim();
       }
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://www.uingame.co.il/' ;
-      try {
-        await redis.set(userIP, JSON.stringify({referer}));
-        await redis.expire(userIP, 3600 * 24);
-      }
-      catch (err) {
-        console.error(`Error while saving in redis: ${err}`)
-        res.redirect('/login/fail')
-      }
+      // try {
+      //   await redis.set(userIP, JSON.stringify({referer}));
+      //   await redis.expire(userIP, 3600 * 24);
+      // }
+      // catch (err) {
+      //   console.error(`Error while saving in redis: ${err}`)
+      //   res.redirect('/login/fail')
+      // }
       req.query.RelayState = req.params.referer = {referer};
       passport.authenticate('saml', {
         failureRedirect: '/login/fail',
