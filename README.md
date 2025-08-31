@@ -1,48 +1,135 @@
-# saml-sample-nodejs
+# UINGame Authenication Server for uingame.co.il - IDM on wix code
 
-Uma simples demonstração de um server Node.js usando [Express 4](http://expressjs.com/) e [passport-saml](http://www.passportjs.org/packages/passport-saml/) para autenticação SAML2.
+SAML 2.0 Service Provider
 
-## Pré-requisitos
+## Local Setup
+1. [git](https://git-scm.com/download) (to upload to production)
+2. [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli) (to upload and manage to production)
+3. [nodejs](https://nodejs.org/) and [yarn](https://yarnpkg.com/) (for local development)
 
-Tenha certeza que possui o [Node.js](http://nodejs.org/) instalado.
+## Uploading to production
+Uploading to heroku is done using git.
 
-## Clonar o repositório
-
+Setup your repository using the `heroku` cli:
 ```sh
-git clone git@github.com:eBZtec/saml-sample-nodejs.git # or clone your own fork
-cd saml-sample-nodejs
-npm install
+heroku login
+heroku git:remote -a uingame-auth
 ```
 
-## Configurando variáveis de ambiente
-
-Antes de executar o server, deve-se configurar:
-
-```
-SESSION_TOKEN=<STRING APENAS PARA A SESSÃO>
-
-SSO_ENTRYPOINT=<URL PARA AUTENTICAÇÃO NO IDP>
-SSO_ISSUER=< IDENTIFICADOR DO SERVICE PROVIDER>
-SSO_CALLBACK_URL=<URL QUE RECEBERÁ OS DADOS DO USUÁRIO AUTENTICADO>
-SSO_CERT=<CERTIFICADO PUBLICO DO IDENTITY PROVIDER>
-```
-
-Para executar localmente, crie um arquivo .env na raíz do projeto com estas variáveis preenchidas.
-
-## Executando a aplicação
-
-Para subir a aplicação execute:
-
+Now you can upload by pushing to the heroku remote running:
 ```sh
-npm dev
+git push heroku master
 ```
 
-## Gerando o metadata do Service Provider
+## Monitoring production
+In order to see the live log from production run:
+```sh
+heroku logs --tails
+```
+It is useful to run this while restarting the server, changing environment variables, etc.
 
-Abra o link [http://localhost:3000/user/v1/metadata](http://localhost:3000/user/v1/metadata) e salve o XML, envie o XML para a equipe responsável pela configuração do IdP. 
+## Obtaining a certificate
+1. Browse [here](https://www.sslforfree.com/create?domains=auth.uingame.co.il), this is a site that automates certificate creation using [Let's Encrypt](https://letsencrypt.org/)
+    1. Choose "Manual Verification"
+    2. Click "Manually Verify Domain"
+    3. Download the verification file
+2. Browse to [heroku app setting](https://dashboard.heroku.com/apps/uingame-auth/settings)
+    1. Under "Domains and certificates" click "Configure SSL"
+    2. Tick "Remove SSL" and click "Continue". **(note that users will not be able to login until this is switched back)**
+    3. Click "Reveal Config Var" to see the environment variables
+    4. Set `ACME_CHALLENGE_TOKEN` to the varification **file name**
+    5. Set `ACME_CHALLENGE_VALUE` to the varification **file content**
+3. Go back to the first site and click "Download certificates", you will be provided with the certificate and the private key
+4. Go back to heroku and turn automatic SSL back on (it will take a few minutes for users to be able to sign in again)
 
-Este metadata reperesenta o Service Provider e serve para que o IdP entenda quem é o Service provider que está solicitando autenticação e para onde deve-se retornar os dados autenticados.
+## Server Configurations
+The server is configured using environment variables that can be found and changed in [heroku app settings](https://dashboard.heroku.com/apps/uingame-auth/settings).
 
-## Testando a autenticação
+Available settings are:
 
-Após a configuração do metadata no IdP, pode-se testar a autenticação através do link [http://localhost:3000/user/v1/login/sso](http://localhost:3000/user/v1/login/sso)
+| Variable | Description | Default Value |
+| --- | --- | --- |
+| PORT | Port for the server to run | set by heroku |
+| REDISTOGO_URL | Redis server url | set by heroku |
+| TOKEN_EXPIRATION | Expiration for the token produced by the server (in seconds) | 300 (5 minutes) |
+| CORS_ORIGIN | Allowed origin for verification endpoint | https://www.uingame.co.il |
+| SUCCESS_REDIRECT | Location to navigate the user after successful login | https://www.uingame.co.il/createsession |
+| LOGOUT_REDIRECT | Location to navigate the user after logging out | https://www.uingame.co.il |
+| IDP_METADATA_URL | URL to obtain IDP metadata | https://lgn.edu.gov.il/nidp/saml2/metadata |
+| LOGOUT_URL | IDP url for logging out | https://lgn.edu.gov.il/nidp/jsp/logoutSuccess.jsp |
+| SAML_PRIVATE_KEY | Private key for signing SAML requests | |
+| SAML_CERT | Public certificate to publish in SAML metadata | |
+| ACME_CHALLENGE_TOKEN | Token for verifing domain ownerwhip using ACME HTTP Challenge | |
+| ACME_CHALLENGE_VALUE | Voken for verifing domain ownerwhip using ACME HTTP Challenge | |
+
+## Test Profiles:
+<table style="direction: rtl">
+  <thead>
+    <td>סוג</td>
+    <td>זהות</td>
+    <td>קוד</td>
+    <td>סיסמא</td>
+    <td>מוסד וכיתה<td>
+    <td>profile</td>
+  </thead>
+  <tbody>
+    <tr>
+      <td> לדוגמה 
+        תלמיד</td>
+      <td>0226633444</td>
+      <td>2933523</td>
+      <td>123456</td>
+      <td>44444 </td>
+      <td>
+        <pre style="direction: ltr">
+{
+  "issuer": "https://is.remote.education.gov.il/nidp/saml2/metadata",
+  "sessionIndex": "idiY1dyZP15I5N_MFg2IAPmRAmtcM",
+  "nameID": "xP9Oq4k9qRsDNUAQbj9PF2o8TRphNkYYX7D/jg==",
+  "nameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+  "nameQualifier": "https://is.remote.education.gov.il/nidp/saml2/metadata",
+  "spNameQualifier": "http://auth.uingame.co.il",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/studentmakbila": "2",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/studentmosad": "444444",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": "0226633444",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "פלוני",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname": "אלמוני",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/zehut": "216636092",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/displayname": "ג'אדי טראבין",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/studentkita": "5",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolesyeshuyot": "444444",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/isstudent": "Yes"
+}
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>בעל תפקיד</td>
+      <td>055544333</td>
+      <td>1308918</td>
+      <td>123qweASD</td>
+      <td>123456</td>
+      <td>
+        <pre style="direction: ltr">
+{
+  "issuer": "https://is.remote.education.gov.il/nidp/saml2/metadata",
+  "sessionIndex": "idBPNsA7JYXObk_Go3DZ6y1_VLtFQ",
+  "nameID": "oT8ZmOFKRl+SJlMDfSxcBHguWAp/KlEPSKfomQ==",
+  "nameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+  "nameQualifier": "https://is.remote.education.gov.il/nidp/saml2/metadata",
+  "spNameQualifier": "http://auth.uingame.co.il",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": "0057626053",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "ישראלה",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolecomplex": "667[Maarechet_hinuch:99999999]",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname": "ישראלה",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/zehut": "055544333",
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/displayname": "ישראלה",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolessimple": "667[Maarechet_hinuch:99999999]",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolesyeshuyot": "99999999",
+  "http://schemas.education.gov.il/ws/2015/01/identity/claims/isstudent": "No"
+}
+        </pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
