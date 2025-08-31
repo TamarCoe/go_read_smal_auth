@@ -43,7 +43,9 @@ passport.use(samlStrategy);
 
 var app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000/' // החלף בכתובת הדומיין שברצונך לאפשר
+})); // הוספת תמיכה 
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({secret: process.env.SESSION_SECRET}));
