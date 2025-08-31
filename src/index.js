@@ -53,25 +53,25 @@ async function init() {
         userIP = userIP.split(',')[0].trim();
       }
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'http://localhost:3000/';
-      passport.authenticate('saml', (err, user, info) => {
-        console.log("FFFF")
-        if (err) {
-          console.log("FFFF")
-          return next(err);
-        }
-        if (!user) {
-          console.log("FFFF")
-          return res.status(401).send('Authentication failed');
-        }
-        req.logIn(user, (err) => {
-          console.log("FFFF")
-          if (err) {
-            console.log("FFFF")
-            return next(err);
-          }
-          return res.redirect('/'); // הפניה לאחר הצלחה
-        });
-      })(req, res, next);
+      // passport.authenticate('saml', (err, user, info) => {
+      //   console.log("FFFF")
+      //   if (err) {
+      //     console.log("FFFF")
+      //     return next(err);
+      //   }
+      //   if (!user) {
+      //     console.log("FFFF")
+      //     return res.status(401).send('Authentication failed');
+      //   }
+      //   req.logIn(user, (err) => {
+      //     console.log("FFFF")
+      //     if (err) {
+      //       console.log("FFFF")
+      //       return next(err);
+      //     }
+      //     return res.redirect('/'); // הפניה לאחר הצלחה
+      //   });
+      // })(req, res, next);
       // try {
       //   console.log("xxx")
       //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
