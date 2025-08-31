@@ -46,14 +46,13 @@ async function init() {
   app.get('/login',
     async (req, res, next) => {
       console.log("Dadsdsa")
-      return res.send("Dss")
 
-      // let userIP = req.headers['x-forwarded-for'] || req.ip;
-      // console.log("userIP", userIP)
-      // if (userIP.includes(',')) {
-      //   userIP = userIP.split(',')[0].trim();
-      // }
-      // let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
+      let userIP = req.headers['x-forwarded-for'] || req.ip;
+      console.log("userIP", userIP)
+      if (userIP.includes(',')) {
+        userIP = userIP.split(',')[0].trim();
+      }
+      let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-smal-auth.vercel.app/';
       // try {
       //   console.log("xxx")
       //   await redis.set(userIP, JSON.stringify({ referer })).catch(() => {
@@ -68,12 +67,12 @@ async function init() {
       //   console.error(`Error while saving in redis: ${err}`)
       //   res.redirect('/login/fail')
       // }
-      // req.query.RelayState = req.params.referer = { referer };
-      // console.log("referer", referer)
-      // passport.authenticate('saml', {
-      //   failureRedirect: '/login/fail',
-      //   additionalParams: { callbackReferer: referer }
-      // })(req, res, next);
+      req.query.RelayState = req.params.referer = { referer };
+      console.log("referer", referer)
+      passport.authenticate('saml', {
+        failureRedirect: '/login/fail',
+        additionalParams: { callbackReferer: referer }
+      })(req, res, next);
 
     }
   );
