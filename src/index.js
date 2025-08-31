@@ -38,15 +38,16 @@ async function init() {
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       const allowedOrigins = [
+        'https://lgn.edu.gov.il/nidp/saml2/sso',
         'https://go-read-beta.vercel.app',
         'https://www.uingame.co.il',
         'https://space.uingame.co.il',
         'http://localhost:3000', // for development
         'http://localhost:3001'  // for development
       ];
-      
+
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
@@ -71,9 +72,9 @@ async function init() {
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
       }
-      
+
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
-      
+
       // Save referer to Redis for later use
       // try {
       //   await redis.set(userIP, JSON.stringify({ referer }));
@@ -89,20 +90,20 @@ async function init() {
         const samlStrategy = passport._strategies.saml;
         const samlRequest = samlStrategy.generateAuthorizeRequest(req, referer);
         const redirectUrl = `${config.idpEntryPoint}?${samlRequest}`;
-        
+
         console.log("SAML redirect URL generated:", redirectUrl);
-        res.json({ 
+        res.json({
           redirect_url: redirectUrl,
-          success: true 
+          success: true
         });
       } catch (err) {
         console.error("Error generating SAML request:", err);
-        res.status(500).json({ 
+        res.status(500).json({
           error: 'Failed to generate SAML request',
-          success: false 
+          success: false
         });
       }
-      
+
     }
   );
 
@@ -116,9 +117,9 @@ async function init() {
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
       }
-      
+
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
-      
+
       // Save referer to Redis for later use
       // try {
       //   await redis.set(userIP, JSON.stringify({ referer }));
@@ -131,7 +132,7 @@ async function init() {
 
       // Set RelayState for SAML
       req.query.RelayState = referer;
-      
+
       // Start SAML authentication - this should redirect to IDP
       passport.authenticate('saml', {
         failureRedirect: '/login/fail',
@@ -144,7 +145,7 @@ async function init() {
     passport.authenticate('saml', { failureRedirect: '/login/fail' }),
     async (req, res, next) => {
       console.log('SAML callback received');
-      
+
       let userIP = req.headers['x-forwarded-for'] || req.ip;
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
