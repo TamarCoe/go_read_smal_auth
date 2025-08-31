@@ -48,7 +48,8 @@ const corsOpts = {
 };
 
 app.use(cors(corsOpts));
-app.use('/', routes);
+
+app.use('/user/v1/', routes);
 
 const port = process.env.PORT || 3333;
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
