@@ -73,7 +73,7 @@ async function init() {
         failureRedirect: '/login/fail',
         additionalParams: { callbackReferer: referer }
       })(req, res, next);
-
+    return res.send("fsdfsdds") 
     }
   );
 
