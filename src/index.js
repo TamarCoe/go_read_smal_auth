@@ -75,14 +75,14 @@ async function init() {
       let referer = req.get('Referer') != undefined ? req.get('Referer') : (!!req.query.rf != undefined && req.query.rf == 'space') ? 'https://space.uingame.co.il/' : 'https://go-read-beta.vercel.app/';
       
       // Save referer to Redis for later use
-      try {
-        await redis.set(userIP, JSON.stringify({ referer }));
-        await redis.expire(userIP, 3600 * 24); // 24 hours
-        console.log("Referer saved to Redis:", referer);
-      } catch (err) {
-        console.error(`Error while saving in redis: ${err}`);
-        return res.status(500).json({ error: 'Failed to save session data' });
-      }
+      // try {
+      //   await redis.set(userIP, JSON.stringify({ referer }));
+      //   await redis.expire(userIP, 3600 * 24); // 24 hours
+      //   console.log("Referer saved to Redis:", referer);
+      // } catch (err) {
+      //   console.error(`Error while saving in redis: ${err}`);
+      //   return res.status(500).json({ error: 'Failed to save session data' });
+      // }
 
       // Generate SAML request and return the redirect URL
       try {
