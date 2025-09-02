@@ -8,14 +8,15 @@ const config = require('./config')
 async function createSamlStartegy() {
   console.log('Getting Identity Provider metadata...')
   const rawMetadata = await rp({uri: config.idpMetadataUrl, rejectUnauthorized: false})
-  // const metadata = await parseSamlMetadata(rawMetadata)
+  const metadata = await parseSamlMetadata(rawMetadata)
   console.log('Identity Provider metadata parsed sucessfully')
   return new SamlStrategy({
     path: '/login/callback',
     identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
     protocol: 'https://',
     host: config.host,
-    entryPoint: 'https://lgn.edu.gov.il/nidp/saml2/sso',
+    entryPoint: metadata.idpSsoTargetUrl,
+    cert: metadata.idpCert,
     issuer: config.issuer,
     // decryptionPvk: config.privateKey,
     // privateCert: config.privateKey,
