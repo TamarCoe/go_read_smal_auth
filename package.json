@@ -8,7 +8,7 @@
     "dev": "nodemon ."
   },
     "engines": {
-    "node": "14.x"
+    "node": "22.x"
   },
   "author": "Arik Maor <arikmaor@gmail.com>",
   "license": "UNLICENCED",
