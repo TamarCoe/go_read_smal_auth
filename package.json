@@ -7,6 +7,9 @@
     "start": "node .",
     "dev": "nodemon ."
   },
+    "engines": {
+    "node": "14.x"
+  },
   "author": "Arik Maor <arikmaor@gmail.com>",
   "license": "UNLICENCED",
   "private": true,
@@ -24,4 +27,5 @@
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
   }
+
 }
