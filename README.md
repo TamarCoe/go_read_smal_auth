@@ -13,6 +13,7 @@ Uploading to heroku is done using git.
 Setup your repository using the `heroku` cli:
 ```sh
 heroku login
+
 heroku git:remote -a uingame-auth
 ```
 
