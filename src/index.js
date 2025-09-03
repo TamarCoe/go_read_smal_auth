@@ -58,6 +58,7 @@ async function init() {
   app.post('/login/callback',
     passport.authenticate('saml', { failureRedirect: '/login/fail' }),
     async (req, res, next) => {
+      console.log("come!!")
       let userIP = req.headers['x-forwarded-for'] || req.ip;
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();

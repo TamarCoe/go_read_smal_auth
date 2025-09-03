@@ -7,7 +7,7 @@
     "start": "node .",
     "dev": "nodemon ."
   },
-    "engines": {
+  "engines": {
     "node": "22.x"
   },
   "author": "Arik Maor <arikmaor@gmail.com>",
@@ -19,12 +19,12 @@
     "express": "^4.16.3",
     "express-session": "^1.18.2",
     "passport": "^0.4.0",
-    "passport-saml": "^0.33.0",
+    "@node-saml/passport-saml": "^5.0.0",
+    "metadata-saml2": "^2.0.1",
     "query-string": "^6.0.0",
     "rand-token": "^0.4.0",
     "redis": "^2.8.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
   }
-
 }
