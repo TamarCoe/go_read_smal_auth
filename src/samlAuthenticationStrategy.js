@@ -9,7 +9,7 @@ const config = require('./config')
 
 const createSamlStrategy = async () => {
   console.log('Getting Identity Provider metadata...')
-  const idpMetadata = await parseIDPMetadataFromFile("idp-metadata-stage.xml");
+  const idpMetadata = await parseIDPMetadataFromFile(path.resolve("idp-metadata-stage.xml"));
   console.log('Identity Provider metadata parsed sucessfully')
   return new SamlStrategy({
     callbackUrl: "https://go-read-smal-auth.vercel.app/login/callback",
