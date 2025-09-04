@@ -34,6 +34,7 @@ async function init() {
 
   app.get('/login',
     async (req, res, next) => {
+      console.error('loggggggggggggg')
       let userIP = req.headers['x-forwarded-for'] || req.ip;
       if (userIP.includes(',')) {
         userIP = userIP.split(',')[0].trim();
@@ -58,28 +59,28 @@ async function init() {
   app.post('/login/callback',
     passport.authenticate('saml', { failureRedirect: '/login/fail' }),
     async (req, res, next) => {
-      console.log("come!!")
-      let userIP = req.headers['x-forwarded-for'] || req.ip;
-      if (userIP.includes(',')) {
-        userIP = userIP.split(',')[0].trim();
-      }
-      const siteInfo = JSON.parse(await redis.get(userIP));
-      if (req.isAuthenticated()) {
-        console.log(req.isAuthenticated());
-        const token = randtoken.generate(16);
-        const keyName = `TOKEN:${token}`
-        try {
-          await redis.set(keyName, JSON.stringify(req.user))
-          await redis.expire(keyName, config.tokenExpiration)
-          await redis.expire(userIP, 1);
-          res.redirect(`${siteInfo.referer+'/createsession'}?${querystring.stringify({ token })}`)
-        } catch (err) {
-          console.error(`Error while saving in redis: ${err}`)
-          res.redirect('/login/fail')
-        }
-      } else {
-        res.redirect('/login/fail')
-      }
+      console.error("come!!")
+      // let userIP = req.headers['x-forwarded-for'] || req.ip;
+      // if (userIP.includes(',')) {
+      //   userIP = userIP.split(',')[0].trim();
+      // }
+      // const siteInfo = JSON.parse(await redis.get(userIP));
+      // if (req.isAuthenticated()) {
+      //   console.log(req.isAuthenticated());
+      //   const token = randtoken.generate(16);
+      //   const keyName = `TOKEN:${token}`
+      //   try {
+      //     await redis.set(keyName, JSON.stringify(req.user))
+      //     await redis.expire(keyName, config.tokenExpiration)
+      //     await redis.expire(userIP, 1);
+      //     res.redirect(`${siteInfo.referer+'/createsession'}?${querystring.stringify({ token })}`)
+      //   } catch (err) {
+      //     console.error(`Error while saving in redis: ${err}`)
+      //     res.redirect('/login/fail')
+      //   }
+      // } else {
+      //   res.redirect('/login/fail')
+      // }
     }
   )
 
@@ -149,7 +150,7 @@ async function init() {
 
   //general error handler
   app.use(function (err, req, res, next) {
-    console.log("Fatal error: " + JSON.stringify(err))
+    console.log("Fatal error111: " + JSON.stringify(err))
     next(err)
   })
 

@@ -9,7 +9,7 @@ const config = require('./config')
 
 const createSamlStrategy = async () => {
   console.log('Getting Identity Provider metadata...')
-  const idpMetadata = await parseIDPMetadataFromFile("idp-metadata-stage.xml");
+  const idpMetadata = await parseIDPMetadataFromFile(path.resolve("idp-metadata-stage.xml"));
   console.log('Identity Provider metadata parsed sucessfully')
   return new SamlStrategy({
     callbackUrl: "https://go-read-smal-auth.vercel.app/login/callback",
@@ -26,7 +26,7 @@ const createSamlStrategy = async () => {
     additionalParams: { RelayState: "default" }
 
   }, (req, profile, done,) => {
-    console.log("Fdssssssssssssssss")
+    console.error("Fdssssssssssssssss")
     const user = {
       displayName: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/displayname'],
       id: profile['http://schemas.education.gov.il/ws/2015/01/identity/claims/zehut'],
