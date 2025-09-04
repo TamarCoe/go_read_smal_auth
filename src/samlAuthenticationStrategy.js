@@ -21,6 +21,8 @@ const createSamlStrategy = async () => {
     validateInResponseTo: "never",
     disableRequestedAuthnContext: true,
     passReqToCallback: true,
+     wantAssertionsSigned: true, 
+    wantAuthnResponseSigned: true,
     additionalParams: { RelayState: "default" }
 
   }, (req, profile, done,) => {
