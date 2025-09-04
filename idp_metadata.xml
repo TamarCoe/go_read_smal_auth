@@ -1,0 +1,146 @@
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                Destination="https://go-read-smal-auth.vercel.app/login/callback"
+                ID="idNwjm7aUKn8A2SgSvD-hmY3GW70E"
+                InResponseTo="_6f6a2674022d0b39ca4beef1647bd4495dd36acc"
+                IssueInstant="2025-09-04T10:08:02Z"
+                Version="2.0"
+                >
+    <saml:Issuer>https://is.remote.education.gov.il/nidp/saml2/metadata</saml:Issuer>
+    <samlp:Status>
+        <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+    </samlp:Status>
+    <saml:Assertion ID="idQVia5d1FbdGbeE_NfWhbnAYNgIA"
+                    IssueInstant="2025-09-04T10:08:02Z"
+                    Version="2.0"
+                    >
+        <saml:Issuer>https://is.remote.education.gov.il/nidp/saml2/metadata</saml:Issuer>
+        <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            <ds:SignedInfo>
+                <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+                <ds:Reference URI="#idQVia5d1FbdGbeE_NfWhbnAYNgIA">
+                    <ds:Transforms>
+                        <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                        <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                    </ds:Transforms>
+                    <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+                    <ds:DigestValue>rmIu29cmriUPdHsvTjEP8mhI1jy9xvKF2ldqVke13zM=</ds:DigestValue>
+                </ds:Reference>
+            </ds:SignedInfo>
+            <ds:SignatureValue>
+FheknWYEOqiBLW5SFrhLBdIYUdgvrEkojqruMxcBiSg9icCErdhxr5lolzZUWpkzr/foVMiRaiqY
+/gyFHGiH4dPF2TmtO0CKzaHN4Xdda83dPtUXd+7FHBVbXp6n0sbiAaqGsWMWhDXpD6uSPPlzIsgZ
+wc9g+v+TGI7Jsrqz6+yi/U5wTza6Qt2jj1wYMngNWWfOV0afDl0cIT2j3IOy5u3uG/e4Vuv5S9i8
+9pzPr6o3Je1CHYi1Egfen4YZJVWdDWAsEWXRiWapjl80lyvDAGLmF9M2pWtzyT9S+HnORll3okGB
+9BRhW5Bj8M0Dc6F0m4IgPZgYI6Q6I2Vis9mrDQ==
+</ds:SignatureValue>
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>
+MIIGaDCCBVCgAwIBAgIQAxh5NVwyc7FAArKVNiGqBzANBgkqhkiG9w0BAQsFADBeMQswCQYDVQQG
+EwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMR0w
+GwYDVQQDExRUaGF3dGUgVExTIFJTQSBDQSBHMTAeFw0yNDA5MDUwMDAwMDBaFw0yNTEwMDYyMzU5
+NTlaMGUxCzAJBgNVBAYTAklMMRIwEAYDVQQHEwlKZXJ1c2FsZW0xHjAcBgNVBAoTFW1pbmlzdHJ5
+IG9mIGVkdWNhdGlvbjEiMCAGA1UEAwwZKi5yZW1vdGUuZWR1Y2F0aW9uLmdvdi5pbDCCASIwDQYJ
+KoZIhvcNAQEBBQADggEPADCCAQoCggEBALJxcNWK3yMOMXgMM8pwuLSnAkJSx8W/Au6M01MM2GYU
+Dv6fX5PBw+C/OsmHKJMSkl/Rdi9viqQQqGNM0SOqr08HwVcSzvCJkDOtKkPGMOWp3UzuabVp4sAx
+giiBUcWzBOWO1y45/eLJvgnhrB9nBBmIOV09MqXZ7oJ7cGNFw16Mppuy7bali6Fvn/+ayIrnYXBA
+pk1zR0cz1cf+r4+I3XHo+obFvDVltYmz9pIvn0Ikj3zkYubtUuhEVOfOaXscUCSfItGLbS8o2s3S
+M/iKff1LVgpbZ7uBcNBEXfZD4CfWbOHBP0x4Q5PmAR9ueIS7J7uoFeGjciuWynQhQCmjcuMCAwEA
+AaOCAxkwggMVMB8GA1UdIwQYMBaAFKWM/jLM6w8s1BnGCLgAJIhdw8W3MB0GA1UdDgQWBBSxiFj9
+H+mLzM+I+eH3jdDIBjGCdDAkBgNVHREEHTAbghkqLnJlbW90ZS5lZHVjYXRpb24uZ292LmlsMD4G
+A1UdIAQ3MDUwMwYGZ4EMAQICMCkwJwYIKwYBBQUHAgEWG2h0dHA6Ly93d3cuZGlnaWNlcnQuY29t
+L0NQUzAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMDsGA1Ud
+HwQ0MDIwMKAuoCyGKmh0dHA6Ly9jZHAudGhhd3RlLmNvbS9UaGF3dGVUTFNSU0FDQUcxLmNybDBw
+BggrBgEFBQcBAQRkMGIwJAYIKwYBBQUHMAGGGGh0dHA6Ly9zdGF0dXMudGhhd3RlLmNvbTA6Bggr
+BgEFBQcwAoYuaHR0cDovL2NhY2VydHMudGhhd3RlLmNvbS9UaGF3dGVUTFNSU0FDQUcxLmNydDAM
+BgNVHRMBAf8EAjAAMIIBfwYKKwYBBAHWeQIEAgSCAW8EggFrAWkAdgAS8U40vVNyTIQGGcOPP3oT
++Oe1YoeInG0wBYTr5YYmOgAAAZHClp9TAAAEAwBHMEUCIQC/G5RA9zsECg+ZTYDB1BD5H0rEwgah
+2qkh/V7aBMxTSQIgM+G3k6BHzhMlMzys3YVhKFA8lkUELVOx4UI0QwEqQCYAdgB9WR4S4Xgqexxh
+Z3xe/fjQh1wUoE6VnrkDL9kOjC55uAAAAZHClp95AAAEAwBHMEUCIQD6smS1OOMjQ2Koln4CAuuV
+FzFLgddhUNKfzTjItAum6AIgNpWomPKVyu2QsRkszwr40Wwhmq76qo73+eHGF2hQgNcAdwDm0jFj
+QHeMwRBBBtdxuc7B0kD2loSG+7qHMh39HjeOUAAAAZHClp+KAAAEAwBIMEYCIQCVjp3UsbzO4PbA
+hcjkbh+6IeIGi1n0MiF4KRjVYrysngIhAMZ31racljinnvJao5IwB8wuDHlWoAKLbbHl7gpzGdKn
+MA0GCSqGSIb3DQEBCwUAA4IBAQAdLwoLM//c5SN9fwKw/OyqyEHdR6ONMKHfTtiPHX6ODztC8lol
+cdj6rLjQOzFtOJKC4lQ/ARaqqZWd+GR6Y7T9kgtsyerdqqMGfzANFzlv99VNSqYJf84OYgO/pNn5
+694Mdpvh50TGCK//obdSEUEkaAmYPiq4saE9dtw4Z7Ybj6u/SLQFhoB+yR44v5fIswOGoVIH0T7+
+2yoPfkkGVl20MRN1qkvxCdLVDn3VCltNwO+4LbZlp+5L+qM3X0yo9bKbggdnXuCfl/ZRTC10MCPF
+SEImgt1EDe0+380nCiNZUGr4GB7xgsvUoh2tdT4Ov97j6hnDeJF3cCXC9Cu/W8Hv
+</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </ds:Signature>
+        <saml:Subject>
+            <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"
+                         NameQualifier="https://is.remote.education.gov.il/nidp/saml2/metadata"
+                         SPNameQualifier="https://go-read-smal-auth.vercel.app/"
+                         >etqqV8FlEd3DB3IgWQ12IVkKeyZbDnokY4zDsg==</saml:NameID>
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+                <saml:SubjectConfirmationData InResponseTo="_6f6a2674022d0b39ca4beef1647bd4495dd36acc"
+                                              NotOnOrAfter="2025-09-04T10:13:02Z"
+                                              Recipient="https://go-read-smal-auth.vercel.app/login/callback"
+                                              />
+            </saml:SubjectConfirmation>
+        </saml:Subject>
+        <saml:Conditions NotBefore="2025-09-04T10:03:02Z"
+                         NotOnOrAfter="2025-09-04T10:13:02Z"
+                         >
+            <saml:AudienceRestriction>
+                <saml:Audience>https://go-read-smal-auth.vercel.app/</saml:Audience>
+            </saml:AudienceRestriction>
+        </saml:Conditions>
+        <saml:AuthnStatement AuthnInstant="2025-09-04T09:22:28Z"
+                             SessionIndex="idTJ-EbH9b8GexkUqmuoLlsqHhtNY"
+                             >
+            <saml:AuthnContext>
+                <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+                <saml:AuthnContextDeclRef>urn:oasis:names:tc:SAML:2.0:ac:classes:combinedpwd</saml:AuthnContextDeclRef>
+            </saml:AuthnContext>
+        </saml:AuthnStatement>
+        <saml:AttributeStatement>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.education.gov.il/ws/2015/01/identity/claims/exidentifier"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">1000000094</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">אסתר</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">הורוביץ</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.education.gov.il/ws/2015/01/identity/claims/isstudent"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">No</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolessimple"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">667,178</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            Name="http://schemas.education.gov.il/ws/2015/01/identity/claims/orgrolesyeshuyot"
+                            NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified"
+                            >
+                <saml:AttributeValue xsi:type="xs:string">590000,590000</saml:AttributeValue>
+            </saml:Attribute>
+        </saml:AttributeStatement>
+    </saml:Assertion>
+</samlp:Response>
